@@ -127,6 +127,7 @@ module counter #(
     input clk,
     input reset,
     input valid,
+    input inc,
     input [3:0] wstrb,
     input [BITS-1:0] wdata,
     input [BITS-1:0] la_write,
@@ -146,7 +147,10 @@ module counter #(
         end else begin
             ready <= 1'b0;
             if (~|la_write) begin
+              if(inc)
                 count <= count + 1;
+              else
+                count <= count - 1;
             end
             if (valid && !ready) begin
                 ready <= 1'b1;
